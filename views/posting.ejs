@@ -30,25 +30,26 @@
         <h1 class="display-4 fw-bold text-body-emphasis">Here you go &#129303;</h1>
       </div>
       <div class="form-container mt-0">
-        <form>
+        <form action="/submit" method="POST">
             <div class="form-group">
-              <label for="exampleFormControlInput1" class="mb-2"><span style="font-weight: bold; font-size: larger;">Name : </span></label>
-              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="You can use any Nickname like 'oramakomaburamako'">
+              <label class="mb-2"><span style="font-weight: bold; font-size: larger;">Name : </span></label>
+              <input type="text" class="form-control" name="name" placeholder="You can use any Nickname like 'oramakomaburamako'">
             </div>
             <div class="form-group my-4">
-              <label for="exampleFormControlInput1" class="mb-2"><span style="font-weight: bold; font-size: larger;">Post Title : </span></label>
-              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Title of your post">
+              <label class="mb-2"><span style="font-weight: bold; font-size: larger;">Post Title : </span></label>
+              <input type="text" class="form-control" name="title" placeholder="Title of your post">
             </div>
             <div class="my-4">
-              <label for="formFile" class="form-label my-2"><span style="font-weight: bold; font-size: larger;">Upload an image for your post : </span></label>
-              <input class="form-control" type="file" id="formFile">
+              <label class="form-label my-2"><span style="font-weight: bold; font-size: larger;">Upload an image for your post : </span></label>
+              <input class="form-control" type="file" name="formFile">
             </div>
             <div class="form-group my-4">
-              <label for="exampleFormControlTextarea1" class="my-2"><span style="font-weight: bold; font-size: larger;">Blog Content : </span></label>
-              <textarea type="text" class="form-control" rows="5" placeholder="What are your thoughts?"></textarea>
+              <label class="my-2"><span style="font-weight: bold; font-size: larger;">Blog Content : </span></label>
+              <textarea type="text" class="form-control" name="content" rows="5" placeholder="What are your thoughts?"></textarea>
             </div>
-            <div class="d-flex justify-content-center my-4">
-              <button type="button" class="btn btn-dark btn-two" data-toggle="button" >Submit</button>
+            <div class="d-flex justify-content-center my-4">  
+              <input type="submit" value="OK" class="btn btn-dark btn-two">
+              <button type="button" class="btn btn-dark btn-two" data-toggle="button">Submit</button>
             </div>
         </form>
       </div>

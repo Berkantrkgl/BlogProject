@@ -1,7 +1,10 @@
 import express from "express";
+import bodyParser from "body-parser";
 
 const app = express();
 const port = 3011;
+
+app.use(bodyParser.urlencoded({ extended: true}));
 
 app.use(express.static("public"))
 
@@ -26,6 +29,13 @@ app.get("/write", (req, res) => {
 
 app.get("/about", (req, res) => {
     res.render("about.ejs");
+})
+
+app.post("/submit", (req, res) => {
+    console.log(req.body);
+    res.render("posts.ejs", {
+        
+    })
 })
 
 app.listen(port, () => {
