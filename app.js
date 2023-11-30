@@ -16,6 +16,12 @@ function addPosts(data) {
     result.push(data);
 }
 
+function updatePost(updateData, index) {
+    result[index].userName = updateData.userName;
+    result[index].title = updateData.title;
+    result[index].content = updateData.content;
+}
+
 // Get submitted data in particular form
 function getData(req) { 
     var minute = "0";
@@ -77,7 +83,7 @@ app.get("/write", (req, res) => {
 // To about page
 app.get("/about", (req, res) => {
     res.render("about.ejs");
-})
+});
 
 // To entering data for post
 app.post("/submit", (req, res) => {
@@ -88,7 +94,7 @@ app.post("/submit", (req, res) => {
         index: length,
         date: getDate(),
     });
-})
+});
 
 // Detail page
 app.get("/details", (req, res) => {
@@ -97,6 +103,34 @@ app.get("/details", (req, res) => {
         index: req.query["index"],
         date: getDate(),
     });
+});
+
+// To get edit page
+app.get("/edit", (req, res) => {
+    res.render("edit.ejs", {
+        array: result,
+        index: req.query["index"],
+        date: getDate(),
+    })
+});
+
+app.get("/update", (req, res) => {
+    console.log(req.query)
+    const postId = req.query["postId"];
+    let name = req.query["name"];
+    let title = req.query["title"];
+    let content = req.query["content"];
+    const req_data = {
+        req_name: name,
+        req_title: title,
+        req_content: content,
+    }
+    updatePost(req_data, req.query["postId"])
+    res.render("postDetail.ejs", {
+        array: result,
+        index: length,
+        date: getDate(),
+    })
 })
 
 app.listen(port, () => {

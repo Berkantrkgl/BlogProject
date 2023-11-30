@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/button.css">
+    <link rel="stylesheet" href="styles/app.css">
+    <title>Document</title>
+</head>
+<body>
+    <%- include("partials/header.ejs") %>
+
+    <div class="form-container mt-2">
+        <form action="/update?index=<%= locals.index %>" method="GET">
+            <div class="form-group">
+                <label class="mb-2"><span style="font-weight: bold; font-size: larger;">ID : </span></label>
+                <textarea readonly type="text" class="form-control" name="postId" rows="1" > <%= locals.index %> </textarea>
+              </div>
+            <div class="form-group my-4">
+              <label class="mb-2"><span style="font-weight: bold; font-size: larger;">Name : </span></label>
+              <textarea type="text" class="form-control" name="name" rows="1" > <%= locals.array[locals.index].userName %> </textarea>
+            </div>
+            <div class="form-group my-4">
+              <label class="mb-2"><span style="font-weight: bold; font-size: larger;">Post Title : </span></label>
+              <textarea type="text" class="form-control" name="title" rows="1"> <%= locals.array[locals.index].title %></textarea>
+            </div>
+            <div class="form-group my-4">
+              <label class="my-2"><span style="font-weight: bold; font-size: larger;">Blog Content : </span></label>
+              <textarea type="text" class="form-control" name="content" rows="5" placeholder="What are your thoughts?"> <%= locals.array[locals.index].content %></textarea>
+            </div>
+            <div class="d-flex justify-content-center my-4">  
+              <input type="submit" value="Update" class="btn btn-dark btn-two">
+            </div>
+        </form>
+    </div>
+</body>
+<%- include("partials/footer.ejs") %>
+</html>
+
+
+
+
+
+
+

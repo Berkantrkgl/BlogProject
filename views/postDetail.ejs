@@ -23,7 +23,7 @@
             <hr>
             <p class="lead" style="text-align: justify;"> <%= locals.array[locals.index].content %></p>
             <div class="d-flex justify-content-center">
-              <a href="/edit"><button type="button" class="btn btn-dark btn-two">Edit Post</button></a>
+              <a href="/edit?index=<%= locals.index %>"><button type="button" class="btn btn-dark btn-two">Edit Post</button></a>
             </div>
           </div>
         </div>
