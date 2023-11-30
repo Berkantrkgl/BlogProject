@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(express.static("public"))
 
 const result = [];
-var length;
+var length = 0;
 
 // For pushing the data to a global result array
 function addPosts(data) {
@@ -40,6 +40,16 @@ function getData(req) {
     return data;
 }
 
+// Get current date with slashes
+function getDate() {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const withSlashes = [year, month, day].join('/');
+    return withSlashes;
+}
+
 // For the home page
 app.get("/", (req, res) => {
     res.render("home.ejs");
@@ -55,31 +65,37 @@ app.get("/posts", (req, res) => {
     res.render("posts.ejs", {
         array: result,
         index: length,
+        date: getDate(),
     });
 });
 
+// To post writing event 
 app.get("/write", (req, res) => {
     res.render("posting.ejs");
 });
 
+// To about page
 app.get("/about", (req, res) => {
     res.render("about.ejs");
 })
 
+// To entering data for post
 app.post("/submit", (req, res) => {
     const data = getData(req);
     addPosts(data);
     res.render("posts.ejs", {
         array: result,
         index: length,
+        date: getDate(),
     });
 })
 
+// Detail page
 app.get("/details", (req, res) => {
-    console.log(req.body)
     res.render("postDetail.ejs", {
         array: result,
-        index: length,
+        index: req.query["index"],
+        date: getDate(),
     });
 })
 
