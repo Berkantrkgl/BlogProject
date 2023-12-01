@@ -67,6 +67,8 @@ function getDataFromQuery(req) {
     return data;
 }
 
+
+
 // Get current date with slashes
 function getDate() {
     const date = new Date();
@@ -76,6 +78,30 @@ function getDate() {
     const withSlashes = [year, month, day].join('/');
     return withSlashes;
 }
+
+function searchPost(PATTERN) {
+    return function(element) { 
+        return element.title.toLowerCase().includes(PATTERN.toLowerCase()) || element.userName.toLowerCase().includes(PATTERN.toLowerCase()) || element.content.toLowerCase().includes(PATTERN.toLowerCase());
+    }
+}
+
+app.get("/search", (req, res) => {
+    var PATTERN = req.query["query"];
+    const searchRes = result.filter(searchPost(PATTERN));
+    res.render("posts.ejs", {
+        array: searchRes,
+        index: searchRes.length - 1,
+        date: getDate(),
+    }); 
+})
+// To click to posts section of the header
+app.get("/posts", (req, res) => {
+    res.render("posts.ejs", {
+        array: result,
+        index: length,
+        date: getDate(),
+    });
+});
 
 app.get("/update", (req, res) => {
     var data = getDataFromQuery(req);
@@ -98,14 +124,7 @@ app.get("/edit", (req, res) => {
     })
 });
 
-// To click to posts section of the header
-app.get("/posts", (req, res) => {
-    res.render("posts.ejs", {
-        array: result,
-        index: length,
-        date: getDate(),
-    });
-});
+
 
 // To post writing event 
 app.get("/write", (req, res) => {
