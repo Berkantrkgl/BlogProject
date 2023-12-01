@@ -12,14 +12,14 @@
     <%- include("partials/header.ejs") %>
 
     <div class="form-container mt-2">
-        <form action="/update?index=<%= locals.index %>" method="GET">
+        <form action="/update" method="GET">
             <div class="form-group">
                 <label class="mb-2"><span style="font-weight: bold; font-size: larger;">ID : </span></label>
                 <textarea readonly type="text" class="form-control" name="postId" rows="1" > <%= locals.index %> </textarea>
               </div>
             <div class="form-group my-4">
               <label class="mb-2"><span style="font-weight: bold; font-size: larger;">Name : </span></label>
-              <textarea type="text" class="form-control" name="name" rows="1" > <%= locals.array[locals.index].userName %> </textarea>
+              <textarea type="text" class="form-control" name="userName" rows="1" > <%= locals.array[locals.index].userName %> </textarea>
             </div>
             <div class="form-group my-4">
               <label class="mb-2"><span style="font-weight: bold; font-size: larger;">Post Title : </span></label>
@@ -30,7 +30,7 @@
               <textarea type="text" class="form-control" name="content" rows="5" placeholder="What are your thoughts?"> <%= locals.array[locals.index].content %></textarea>
             </div>
             <div class="d-flex justify-content-center my-4">  
-              <input type="submit" value="Update" class="btn btn-dark btn-two">
+              <input type="submit" value="Submit" class="btn btn-dark btn-two">
             </div>
         </form>
     </div>

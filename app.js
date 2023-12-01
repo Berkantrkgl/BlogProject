@@ -7,7 +7,7 @@ const port = 3011;
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(express.static("public"))
 
-const result = [];
+var result = [];    
 var length = 0;
 
 // For pushing the data to a global result array
@@ -16,14 +16,12 @@ function addPosts(data) {
     result.push(data);
 }
 
-function updatePost(updateData, index) {
-    result[index].userName = updateData.userName;
-    result[index].title = updateData.title;
-    result[index].content = updateData.content;
+function update(data, index) {
+    result[index] = data;
 }
 
 // Get submitted data in particular form
-function getData(req) { 
+function getDataFromBody(req) { 
     var minute = "0";
     var contentLength = req.body["content"].length;
     if ( contentLength < 200) {
@@ -46,6 +44,29 @@ function getData(req) {
     return data;
 }
 
+function getDataFromQuery(req) {
+    var line = req.query["content"].slice(0,100);
+    var minute = "0";
+    var contentLength = req.query["content"].length;
+    if ( contentLength < 200) {
+        minute = "1";
+    } else if ( contentLength < 400 && contentLength > 200) {
+        minute = "3";
+    } else if (contentLength < 700 && contentLength > 400) {
+        minute = "6";
+    } else {
+        minute = "10";
+    } 
+    const data = {
+        userName: req.query["userName"],
+        title: req.query["title"],
+        content: req.query["content"],
+        oneline: line,
+        min: minute,
+    }
+    return data;
+}
+
 // Get current date with slashes
 function getDate() {
     const date = new Date();
@@ -56,14 +77,25 @@ function getDate() {
     return withSlashes;
 }
 
-// For the home page
-app.get("/", (req, res) => {
-    res.render("home.ejs");
-});
+app.get("/update", (req, res) => {
+    var data = getDataFromQuery(req);
+    console.log(data)
+    console.log(req.query["postId"])
+    update(data, req.query["postId"]);
+    res.render("postDetail.ejs", {
+        array: result,
+        index: req.query["postId"],
+        date: getDate(),
+    });
+})
 
-// To click to home section of the header 
-app.get("/home", (req, res) => {
-    res.render("home.ejs");
+// To get edit page
+app.get("/edit", (req, res) => {
+    res.render("edit.ejs", {
+        array: result,
+        index: req.query["index"],
+        date: getDate(),
+    })
 });
 
 // To click to posts section of the header
@@ -80,14 +112,9 @@ app.get("/write", (req, res) => {
     res.render("posting.ejs");
 });
 
-// To about page
-app.get("/about", (req, res) => {
-    res.render("about.ejs");
-});
-
 // To entering data for post
 app.post("/submit", (req, res) => {
-    const data = getData(req);
+    const data = getDataFromBody(req);
     addPosts(data);
     res.render("posts.ejs", {
         array: result,
@@ -105,33 +132,21 @@ app.get("/details", (req, res) => {
     });
 });
 
-// To get edit page
-app.get("/edit", (req, res) => {
-    res.render("edit.ejs", {
-        array: result,
-        index: req.query["index"],
-        date: getDate(),
-    })
+
+// For the home page
+app.get("/", (req, res) => {
+    res.render("home.ejs");
 });
 
-app.get("/update", (req, res) => {
-    console.log(req.query)
-    const postId = req.query["postId"];
-    let name = req.query["name"];
-    let title = req.query["title"];
-    let content = req.query["content"];
-    const req_data = {
-        req_name: name,
-        req_title: title,
-        req_content: content,
-    }
-    updatePost(req_data, req.query["postId"])
-    res.render("postDetail.ejs", {
-        array: result,
-        index: length,
-        date: getDate(),
-    })
-})
+// To click to home section of the header 
+app.get("/home", (req, res) => {
+    res.render("home.ejs");
+});
+
+// To about page
+app.get("/about", (req, res) => {
+    res.render("about.ejs");
+});
 
 app.listen(port, () => {
     console.log(`Server is working on port ${port}`);
